@@ -1,8 +1,8 @@
+import Body from "./components/Body";
+
 function App() {
   return (
-    <div className="text-gray-500">
-      Namaste
-    </div>
+    <Body />
   );
 }
 
