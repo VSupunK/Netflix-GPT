@@ -15,8 +15,8 @@ const Login = () => {
   const handleButtonClick = () => {
     // Validate the form data
 
-    console.log("Email", email.current.value);
-    console.log("Password", password.current.value);
+    // console.log("Email", email.current.value);
+    // console.log("Password", password.current.value);
 
     const message = checkValidateData(
       email.current.value,
