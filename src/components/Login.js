@@ -1,20 +1,29 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
+import { checkValidateData } from "../utils/validate";
 // import { checkValidateData } from "../utils/validate";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+
+  const [errorMessage, setErrorMessage] = useState();
 
   const email = useRef(null);
   const password = useRef(null);
 
   const handleButtonClick = () => {
     // Validate the form data
-    // checkValidateData(email, password);
 
-    console.log("Email" + email);
-    console.log("Password" + password);
+    console.log("Email", email.current.value);
+    console.log("Password", password.current.value);
+
+    const message = checkValidateData(
+      email.current.value,
+      password.current.value
+    );
+    // console.log("Error", message);
+    setErrorMessage(message);
   };
   const toggleSignIn = () => {
     setIsSignInForm(!isSignInForm);
@@ -39,7 +48,10 @@ const Login = () => {
           <h1 className="text-white text-2xl font-bold">
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h1>
-          <form className="flex flex-col items-center">
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="flex flex-col items-center"
+          >
             {!isSignInForm && (
               <input
                 type="text"
@@ -60,12 +72,22 @@ const Login = () => {
               placeholder="Email address"
               className="w-full h-10 m-2 p-2 rounded-md opacity-60"
             />
+            {errorMessage == "Email Address is not valid!" && (
+              <div>
+                <p className="text-red-600 font-medium">{errorMessage}</p>
+              </div>
+            )}
             <input
               ref={password}
               type="password"
               placeholder="Password"
               className="w-full h-10 m-2 p-2 rounded-md opacity-60"
             />
+            {errorMessage == "Password is not valid!" && (
+              <div>
+                <p className="text-red-600 font-medium">{errorMessage}</p>
+              </div>
+            )}
             <button
               className="w-full h-10 m-2 p-2 bg-red-800 text-white rounded-md hover:bg-red-600"
               onClick={handleButtonClick}
