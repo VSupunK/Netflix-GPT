@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
+// import { checkValidateData } from "../utils/validate";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+
+  const email = useRef(null);
+  const password = useRef(null);
+
+  const handleButtonClick = () => {
+    // Validate the form data
+    // checkValidateData(email, password);
+
+    console.log("Email" + email);
+    console.log("Password" + password);
+  };
   const toggleSignIn = () => {
     setIsSignInForm(!isSignInForm);
   };
@@ -43,16 +55,21 @@ const Login = () => {
               />
             )}
             <input
+              ref={email}
               type="text"
-              placeholder="Email or phone number"
+              placeholder="Email address"
               className="w-full h-10 m-2 p-2 rounded-md opacity-60"
             />
             <input
+              ref={password}
               type="password"
               placeholder="Password"
               className="w-full h-10 m-2 p-2 rounded-md opacity-60"
             />
-            <button className="w-full h-10 m-2 p-2 bg-red-800 text-white rounded-md hover:bg-red-600">
+            <button
+              className="w-full h-10 m-2 p-2 bg-red-800 text-white rounded-md hover:bg-red-600"
+              onClick={handleButtonClick}
+            >
               {isSignInForm ? "Sign In" : "Sign Up"}
             </button>
             <div className="flex justify-between items-center w-full">
