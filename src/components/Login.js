@@ -24,6 +24,9 @@ const Login = () => {
     );
     // console.log("Error", message);
     setErrorMessage(message);
+    if (!message) return;
+
+    //Sign In/ Sign Up Logic
   };
   const toggleSignIn = () => {
     setIsSignInForm(!isSignInForm);
