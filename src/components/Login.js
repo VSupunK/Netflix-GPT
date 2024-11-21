@@ -3,6 +3,8 @@ import Header from "./Header";
 import { Link } from "react-router-dom";
 import { checkValidateData } from "../utils/validate";
 // import { checkValidateData } from "../utils/validate";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -27,6 +29,27 @@ const Login = () => {
     if (!message) return;
 
     //Sign In/ Sign Up Logic
+    if (!isSignInForm) {
+      // Signup Logic
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " - " + errorMessage);
+        });
+    } else {
+      // Signin Logic
+    }
   };
   const toggleSignIn = () => {
     setIsSignInForm(!isSignInForm);
