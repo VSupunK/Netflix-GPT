@@ -1,4 +1,4 @@
-import { createSlice } from "@redux/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
   name: "user",
@@ -7,12 +7,12 @@ const userSlice = createSlice({
     addUser: (state, action) => {
       return action.payload;
     },
-    removeUser: (state, action) => {
+    removeUser: (state) => {
       return null;
     },
   },
 });
 
-export const { addUser, removeUser } = userSlice.action;
+export const { addUser, removeUser } = userSlice.actions; // Corrected this line
 
 export default userSlice.reducer;
