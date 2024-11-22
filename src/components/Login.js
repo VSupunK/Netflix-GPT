@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { addUser } from "../utils/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { checkValidateData } from "../utils/validate";
 import {
@@ -9,11 +10,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const email = useRef(null);
   const password = useRef(null);
@@ -52,6 +55,21 @@ const Login = () => {
             .then(() => {
               // Profile updated
               console.log("User signed up:", user);
+              const {
+                uid,
+                email,
+                displayName = "",
+                photoURL = "",
+              } = auth.currentUser;
+              // User is signed in...
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName || "No Name", // Default to 'No Name' if displayName is not available
+                  photoURL: photoURL || "default-photo-url", // Default to a placeholder image if photoURL is missing
+                })
+              );
               navigate("/browse");
             })
             .catch((error) => {
