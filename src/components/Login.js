@@ -3,7 +3,11 @@ import Header from "./Header";
 import { Link } from "react-router-dom";
 import { checkValidateData } from "../utils/validate";
 // import { checkValidateData } from "../utils/validate";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
 
 const Login = () => {
@@ -16,39 +20,49 @@ const Login = () => {
 
   const handleButtonClick = () => {
     // Validate the form data
-
-    // console.log("Email", email.current.value);
-    // console.log("Password", password.current.value);
-
     const message = checkValidateData(
       email.current.value,
       password.current.value
     );
-    // console.log("Error", message);
-    setErrorMessage(message);
-    if (!message) return;
 
-    //Sign In/ Sign Up Logic
+    if (message) {
+      setErrorMessage(message); // Display validation error message
+      return;
+    }
+
+    // Sign-Up or Sign-In Logic
     if (!isSignInForm) {
-      // Signup Logic
+      // Sign-Up Logic
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("User signed up:", user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(`${errorCode} - ${errorMessage}`);
+        });
+    } else {
+      // Sign-In Logic
       signInWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user;
-          console.log(user);
-          // ...
+          console.log("User signed in:", user);
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          setErrorMessage(errorCode + " - " + errorMessage);
+          setErrorMessage(`${errorCode} - ${errorMessage}`);
         });
-    } else {
-      // Signin Logic
     }
   };
   const toggleSignIn = () => {
