@@ -2,9 +2,11 @@ import React from "react";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
   const handleSignout = () => {
     signOut(auth)
       .then(() => {
@@ -28,21 +30,23 @@ const Header = () => {
       </div>
 
       {/* User Avatar and Logout Button */}
-      <div className="flex items-center space-x-4">
-        {/* User Avatar */}
-        <img
-          src="https://via.placeholder.com/40" // Replace with user's profile picture URL
-          alt="User Avatar"
-          className="w-10 h-10 rounded-full border-2 border-gray-300"
-        />
-        {/* Logout Button */}
-        <button
-          onClick={handleSignout}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-        >
-          Sign Out
-        </button>
-      </div>
+      {user && (
+        <div className="flex items-center space-x-4">
+          {/* User Avatar */}
+          <img
+            src={user?.photoURL} // Replace with user's profile picture URL
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full border-2 border-gray-300"
+          />
+          {/* Logout Button */}
+          <button
+            onClick={handleSignout}
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
     </div>
   );
 };

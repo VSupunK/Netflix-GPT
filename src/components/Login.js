@@ -46,7 +46,8 @@ const Login = () => {
           // Update Profile with First and Last Name
           updateProfile(user, {
             displayName: `${firstName.current.value} ${lastName.current.value}`,
-            photoURL: "https://example.com/jane-q-user/profile.jpg", // You can use a placeholder
+            photoURL:
+              "https://avatars.githubusercontent.com/u/116533030?s=400&u=676fdb5288b5f3018971eff0a55c8245cfd7aaf6&v=4", // You can use a placeholder
           })
             .then(() => {
               // Profile updated
