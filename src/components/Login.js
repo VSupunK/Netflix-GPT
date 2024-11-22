@@ -2,23 +2,23 @@ import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { Link, useNavigate } from "react-router-dom";
 import { checkValidateData } from "../utils/validate";
-// import { checkValidateData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
-
   const [errorMessage, setErrorMessage] = useState(null);
-
   const navigate = useNavigate();
 
   const email = useRef(null);
   const password = useRef(null);
+  const firstName = useRef(null); // Ref for First Name
+  const lastName = useRef(null); // Ref for Last Name
 
   const handleButtonClick = () => {
     // Validate the form data
@@ -42,8 +42,21 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log("User signed up:", user);
-          navigate("/browse");
+
+          // Update Profile with First and Last Name
+          updateProfile(user, {
+            displayName: `${firstName.current.value} ${lastName.current.value}`,
+            photoURL: "https://example.com/jane-q-user/profile.jpg", // You can use a placeholder
+          })
+            .then(() => {
+              // Profile updated
+              console.log("User signed up:", user);
+              navigate("/browse");
+            })
+            .catch((error) => {
+              // An error occurred while updating profile
+              setErrorMessage(error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -69,6 +82,7 @@ const Login = () => {
         });
     }
   };
+
   const toggleSignIn = () => {
     setIsSignInForm(!isSignInForm);
   };
@@ -85,8 +99,7 @@ const Login = () => {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-black bg-opacity-40 -z-5"></div>{" "}
-        {/* This creates the overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-40 -z-5"></div>
         {/* Form container */}
         <div className="relative bg-black bg-opacity-60 px-10 py-6 rounded-lg w-[400px]">
           <h1 className="text-white text-2xl font-bold">
@@ -97,18 +110,20 @@ const Login = () => {
             className="flex flex-col items-center"
           >
             {!isSignInForm && (
-              <input
-                type="text"
-                placeholder="First Name"
-                className="w-full h-10 m-2 p-2 rounded-md opacity-60"
-              />
-            )}
-            {!isSignInForm && (
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="w-full h-10 m-2 p-2 rounded-md opacity-60"
-              />
+              <>
+                <input
+                  ref={firstName}
+                  type="text"
+                  placeholder="First Name"
+                  className="w-full h-10 m-2 p-2 rounded-md opacity-60"
+                />
+                <input
+                  ref={lastName}
+                  type="text"
+                  placeholder="Last Name"
+                  className="w-full h-10 m-2 p-2 rounded-md opacity-60"
+                />
+              </>
             )}
             <input
               ref={email}
@@ -116,7 +131,7 @@ const Login = () => {
               placeholder="Email address"
               className="w-full h-10 m-2 p-2 rounded-md opacity-60"
             />
-            {errorMessage == "Email Address is not valid!" && (
+            {errorMessage === "Email Address is not valid!" && (
               <div>
                 <p className="text-red-600 font-medium">{errorMessage}</p>
               </div>
@@ -127,7 +142,7 @@ const Login = () => {
               placeholder="Password"
               className="w-full h-10 m-2 p-2 rounded-md opacity-60"
             />
-            {errorMessage == "Password is not valid!" && (
+            {errorMessage === "Password is not valid!" && (
               <div>
                 <p className="text-red-600 font-medium">{errorMessage}</p>
               </div>
@@ -156,9 +171,6 @@ const Login = () => {
               <span className="text-gray-400 hover:cursor-default">
                 {isSignInForm ? "New to Netflix?" : "Already registered!"}
               </span>
-              {/* <Link to="/browse" className="text-gray-300 hover:text-white" onClick={toggleSignIn}>
-                Sign up now
-              </Link> */}
               <h1
                 className="text-gray-300 hover:text-white hover:cursor-pointer"
                 onClick={toggleSignIn}
@@ -173,10 +185,6 @@ const Login = () => {
   );
 };
 
-// Sample USer
-// First Name: firstN
-// Last Name: lastN
-// email: testemail@gmail.com
-// password: ASD@345cvb
-
+//newemail@gmail.com
+//ZXC@34qwe
 export default Login;

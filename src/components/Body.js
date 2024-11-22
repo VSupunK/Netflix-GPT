@@ -37,15 +37,22 @@ const Body = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { uid, email, displayName } = user;
+        const { uid, email, displayName = "", photoURL = "" } = user;
         // User is signed in...
-        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName || "No Name", // Default to 'No Name' if displayName is not available
+            photoURL: photoURL || "default-photo-url", // Default to a placeholder image if photoURL is missing
+          })
+        );
       } else {
         // User is signed out
         dispatch(removeUser());
       }
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
