@@ -69,7 +69,6 @@ const Login = () => {
                   photoURL: photoURL || "default-photo-url", // Default to a placeholder image if photoURL is missing
                 })
               );
-              navigate("/browse");
             })
             .catch((error) => {
               // An error occurred while updating profile

@@ -11,10 +11,7 @@ const Header = () => {
   const user = useSelector((store) => store.user);
   const handleSignout = () => {
     signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/");
-      })
+      .then(() => {})
       .catch((error) => {
         // An error happened.
         navigate("/error");
