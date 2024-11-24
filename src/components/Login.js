@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
+import { LOGO, Logo, USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -48,8 +49,7 @@ const Login = () => {
           // Update Profile with First and Last Name
           updateProfile(user, {
             displayName: `${firstName.current.value} ${lastName.current.value}`,
-            photoURL:
-              "https://avatars.githubusercontent.com/u/116533030?s=400&u=676fdb5288b5f3018971eff0a55c8245cfd7aaf6&v=4", // You can use a placeholder
+            photoURL: { USER_AVATAR }, // You can use a placeholder
           })
             .then(() => {
               // Profile updated
@@ -110,11 +110,7 @@ const Login = () => {
       <div className="flex flex-col items-center justify-center min-h-screen relative">
         {/* Background image */}
         <div className="absolute inset-0 -z-10">
-          <img
-            src="https://assets.nflxext.com/ffe/siteui/vlv3/81d64f3c-9627-4741-8f74-422bf35f9f1d/web/GB-en-20241104-TRIFECTA-perspective_b22b6633-ce0d-49ce-bab9-3e20d0259ad4_large.jpg"
-            alt="bg"
-            className="w-full h-full object-cover"
-          />
+          <img src={LOGO} alt="bg" className="w-full h-full object-cover" />
         </div>
         <div className="absolute inset-0 bg-black bg-opacity-40 -z-5"></div>
         {/* Form container */}

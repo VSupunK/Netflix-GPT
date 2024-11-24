@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubcribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, displayName = "", photoURL = "" } = user;
         // User is signed in...
@@ -38,6 +38,8 @@ const Header = () => {
         navigate("/");
       }
     });
+
+    return () => unsubcribe();
   }, [dispatch]);
 
   return (
