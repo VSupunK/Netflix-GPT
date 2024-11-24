@@ -11,7 +11,10 @@ const Header = () => {
   const user = useSelector((store) => store.user);
   const handleSignout = () => {
     signOut(auth)
-      .then(() => {})
+      .then(() => {
+        //Successfully logged
+        navigate("/braowse");
+      })
       .catch((error) => {
         // An error happened.
         navigate("/error");
