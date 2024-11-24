@@ -11,10 +11,7 @@ const Header = () => {
   const user = useSelector((store) => store.user);
   const handleSignout = () => {
     signOut(auth)
-      .then(() => {
-        //Successfully logged
-        navigate("/braowse");
-      })
+      .then(() => {})
       .catch((error) => {
         // An error happened.
         navigate("/error");
@@ -34,9 +31,11 @@ const Header = () => {
             photoURL: photoURL || "default-photo-url", // Default to a placeholder image if photoURL is missing
           })
         );
+        navigate("/browse");
       } else {
         // User is signed out
         dispatch(removeUser());
+        navigate("/");
       }
     });
   }, [dispatch]);
