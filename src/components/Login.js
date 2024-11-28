@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
-import { LOGO, Logo, USER_AVATAR } from "../utils/constants";
+import { LOGO, USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -49,7 +49,7 @@ const Login = () => {
           // Update Profile with First and Last Name
           updateProfile(user, {
             displayName: `${firstName.current.value} ${lastName.current.value}`,
-            photoURL: { USER_AVATAR }, // You can use a placeholder
+            photoURL: USER_AVATAR, // You can use a placeholder
           })
             .then(() => {
               // Profile updated
