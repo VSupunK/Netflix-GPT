@@ -1,7 +1,20 @@
 import React from "react";
+import VideoTitle from "./VideoTitle";
+import VideoBackground from "./VideoBackground";
 
 const MainContainer = () => {
-  return <div>MainContainer</div>;
+  const movies = useSelector((store) => store.movies?.nowPlayingMovies);
+  if (!movies) return;
+
+  const mainMovie = movies[0];
+  console.log(mainMovie);
+
+  return (
+    <div>
+      <VideoTitle />
+      <VideoBackground />
+    </div>
+  );
 };
 
 export default MainContainer;
