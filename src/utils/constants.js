@@ -4,9 +4,7 @@ export const LOGO =
 export const USER_AVATAR =
   "https://avatars.githubusercontent.com/u/116533030?s=400&u=676fdb5288b5f3018971eff0a55c8245cfd7aaf6&v=4";
 
-export const API_OPTION =
-  "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
-const options = {
+export const API_OPTION = {
   method: "GET",
   headers: {
     accept: "application/json",
